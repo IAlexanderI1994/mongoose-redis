@@ -12,11 +12,12 @@ module.exports =
       const exec = mongoose.Query.prototype.exec
 
       mongoose.Query.prototype.exec = async function () {
-        const key = 'games_' + JSON.stringify(Object.assign({}, this.getQuery(), {
+        const key = JSON.stringify(Object.assign({}, this.getQuery(), {
           collection: this.mongooseCollection.name,
           op: this.op,
           options: this.options
         }))
+        console.log(key)
 
 
         const cacheValue = await client.get(key)
@@ -30,17 +31,14 @@ module.exports =
 
           return doc
         }
-
         const result = await exec.apply(this, arguments)
 
         if ( result ) {
-
           await client.set(key, JSON.stringify(result))
         }
-
         return result
       }
-    }
+    },
   }
 
 
