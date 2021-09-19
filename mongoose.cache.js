@@ -12,13 +12,16 @@ module.exports =
       const exec = mongoose.Query.prototype.exec
 
       mongoose.Query.prototype.exec = async function () {
-        const key = JSON.stringify(Object.assign({}, this.getQuery(), {
-          collection: this.mongooseCollection.name,
-          op: this.op,
-          options: this.options
-        }))
-        console.log(key)
+        const key = JSON.stringify(
+          {
+            ...this.getQuery(),
+            collection: this.mongooseCollection.name,
+            op: this.op,
+            options: this.options
+          }
+        )
 
+        console.log(key)
 
         const cacheValue = await client.get(key)
 

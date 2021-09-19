@@ -32,7 +32,7 @@ describe('base test', function () {
   })
   it('should correctly cache', async function () {
 
-    const cats = await Cat.find().exec()
+    const cats = await Cat.find({name: 'First'}).sort().limit(1).exec()
 
   })
 })
