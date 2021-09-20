@@ -21,19 +21,10 @@ module.exports =
           }
         )
 
-        console.log(key)
-
         const cacheValue = await client.get(key)
 
-        if ( cacheValue ) {
-          const doc = JSON.parse(cacheValue)
+        if ( cacheValue ) return JSON.parse(cacheValue)
 
-          // const newValue = Array.isArray(doc) ? doc.map(d => new this.model(d)) :
-          //     ( typeof doc === 'object' ? new this.model(doc): doc)
-          // return newValue
-
-          return doc
-        }
         const result = await exec.apply(this, arguments)
 
         if ( result ) {
